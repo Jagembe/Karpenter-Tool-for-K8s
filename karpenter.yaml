@@ -1,8 +1,49 @@
+# # Namespace deployment
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: karpenter
+#   namespace: kube-system
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: karpenter
+#   template:
+#     metadata:
+#       labels:
+#         app: karpenter
+#     spec:
+#       containers:
+#         - name: karpenter
+#           image: gcr.io/karpenter-build/karpenter:v1.3.0
+#           command: ["/karpenter", "run"]
+#           args:
+#             - --scheduler=nomad
+#             - --nomad-address=http://your-nomad-server:4646
+#             - --nomad-jobs-prefix=karpenter-
+#           env:
+#             - name: AWS_REGION
+#               value: us-east-1
+#             - name: AWS_ACCESS_KEY_ID
+#               value: YOUR_AWS_ACCESS_KEY_ID
+#             - name: AWS_SECRET_ACCESS_KEY
+#               value: YOUR_AWS_SECRET_ACCESS_KEY
+#           resources:
+#             requests:
+#               cpu: "0.1"
+#               memory: "128Mi"
+#             limits:
+#               cpu: "1"
+#               memory: "256Mi"
+
+
+# Cluster Wide Manifest
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: karpenter
-  namespace: kube-system
 spec:
   replicas: 1
   selector:
